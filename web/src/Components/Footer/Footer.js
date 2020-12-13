@@ -115,6 +115,8 @@ const AwesomeIcon = styled(Icon)`
 
 const ThemeCheckbox = styled(Checkbox)`
   && {
+    width: 26px;
+    height: 26px;
     color: ${props => props.theme.colorFooterTextIcon};
     &:hover {
       background: ${props => fade(props.theme.colorIconButtonHover, props.theme.opacityActionHover)};
@@ -193,6 +195,7 @@ class Footer extends ResponsiveComponent {
             </FooterTypography>
           </Grid>
           { this.props.location.pathname === '/' &&
+            !Constants.IS_STATIC_MODE &&
             <Grid item>
               <FooterTypography color='inherit'>
                 {'('}
@@ -263,11 +266,11 @@ class Footer extends ResponsiveComponent {
     const breakpoint = getBreakpoint();
     switch (breakpoint) {
       case Breakpoints.XS:
-        return '© 2020 openblockexplorer';
+        return '© 2021 openblockexplorer';
       case Breakpoints.SM:
-        return '© 2020 openblockexplorer contributors';
+        return '© 2021 openblockexplorer contributors';
       default:
-        return '© 2020 openblockexplorer contributors | All rights reserved';
+        return '© 2021 openblockexplorer contributors | All rights reserved';
     }
   }
 

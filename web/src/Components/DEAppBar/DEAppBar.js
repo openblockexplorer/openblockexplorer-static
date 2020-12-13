@@ -32,7 +32,6 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import zIndex from '@material-ui/core/styles/zIndex';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CloseIcon from '@material-ui/icons/Close';
-import DescriptionIcon from '@material-ui/icons/Description';
 import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -112,6 +111,7 @@ const ImgProductIcon = styled.img`
 // settings.
 const TypographyAppName = styled(Typography)`
   && {
+    margin-top: 1px;
     font-family: 'Istok Web', sans-serif;
     font-weight: bold;
     font-size: 20px;
@@ -177,7 +177,7 @@ const InputSearch = styled(Input)`
      * DCM 21.apr.2018: After updating Material-UI, margin-top had to be adjusted for all
      * breakpoints based on trial and error.
      */
-    margin-top: 0.65rem;
+    margin-top: 0.6rem;
     color: ${props => props.theme.colorSearchText};
     font-family: ${Constants.FONT_PRIMARY};
     font-size: ${Constants.MATERIAL_FONT_SIZE_H6};
@@ -190,6 +190,7 @@ const InputSearch = styled(Input)`
       `) ||
       (breakpoint === Breakpoints.XS && `
         margin-top: 0.625rem;
+        font-size: ${Constants.MATERIAL_FONT_SIZE_BODY_2};
       `)
     }
   }
@@ -231,8 +232,27 @@ const ListSearch = styled(List)`
  */
 const ListItemSearch = styled(ListItem)`
   && {
+    padding-top: 11px;
+    padding-bottom: 11px;
     /* Use theme for the highlighted/focused color!!! */
     background: ${props => props.highlighted ? Constants.COLOR_GRAY_ON_WHITE : 'initial'};
+  }
+`;
+
+/**
+ * ListItemIcon for search auto-complete list.
+ */
+const ListItemIconSearch = styled(ListItemIcon)`
+  && {
+    min-width: 32px;
+    ${({ breakpoint }) =>
+      (breakpoint === Breakpoints.SM && `
+        min-width: 30px;
+      `) ||
+      (breakpoint === Breakpoints.XS && `
+        min-width: 16px;
+      `)
+    }
   }
 `;
 
@@ -348,8 +368,8 @@ const DrawerListItemText = styled(({ ...other }) => (
 
 const DrawerListItem = styled(ListItem)`
   && {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 9.5px;
+    padding-bottom: 9.5px;
     ${DrawerListItemIcon} {
       margin-left: 8px;
       color: ${
@@ -574,9 +594,9 @@ class DEAppBar extends ResponsiveComponent {
                                 item
                               })}
                             >
-                              <ListItemIcon>
+                              <ListItemIconSearch breakpoint={breakpoint}>
                                 <SearchIconListSearch breakpoint={breakpoint} />
-                              </ListItemIcon>
+                              </ListItemIconSearch>
                               {item}
                             </ListItemSearch>
                           ))}

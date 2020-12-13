@@ -20,8 +20,10 @@ import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
+import { SchemaLink } from 'apollo-link-schema';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import { makeExecutableSchema } from 'graphql-tools';
 import { ApolloProvider } from 'react-apollo';
 import { GlobalStyle, themeLight, themeDark } from './theme/globalStyle';
 import HomePage from './Components/HomePage/HomePage';
@@ -35,32 +37,73 @@ import SearchPage from './Components/SearchPage/SearchPage';
 import DEAppBar from './Components/DEAppBar/DEAppBar';
 import Footer from './Components/Footer/Footer';
 import Constants from './constants';
+import MockServer from './mock/MockServer';
+import prismaTypeDefs from './mock/prisma.graphql';
+import schemaTypeDefs from './mock/schema.graphql';
 import { getBreakpoint, isBreakpointDesktop } from './utils/breakpoint';
 
-// Create an http link.
-const httpLink = new HttpLink({
-  uri: Constants.URI_SERVER_HTTP
-});
+let link;
+if (Constants.IS_STATIC_MODE)
+{
+  // Create mockServer to simulate the back end code and resolve GraphQL queries.
+  const mockServer = new MockServer();
 
-// Create a WebSocketLink that represents the WebSocket connection. 
-const wsLink = new WebSocketLink({
-  uri: Constants.URI_SERVER_WEB_SOCKETS,
-  options: {
-    reconnect: true
-  }
-});
+  const resolvers = {
+    Query: {
+      blocks: (_parent, { first, orderBy }) => mockServer.resolveQueryBlocks(first, orderBy),
+      blocksConnection: (_parent, { where, orderBy, skip, after, before, first, last }) =>
+      mockServer.resolveQueryBlocksConnection(
+          where, orderBy, skip, after, before, first, last),
+      block: (_parent, { height }) => mockServer.resolveQueryBlock(height),
+      transactions: (_parent, { first, orderBy }) =>
+        mockServer.resolveQueryTransactions(first, orderBy),
+      transactionsConnection: (_parent, { where, orderBy, skip, after, before, first, last }) =>
+        mockServer.resolveQueryTransactionsConnection(
+          where, orderBy, skip, after, before, first, last),
+      transaction: (_parent, { hash }) => mockServer.resolveQueryTransaction(hash),
+      searchGetType: (_parent, { query }) => mockServer.resolveQuerySearchGetType(query),
+      searchAutoComplete: (_parent, { query, first }) =>
+        mockServer.resolveQuerySearchAutoComplete(query, first),
+      dailyNetworkStatses: (_parent, { last, skip, orderBy }) =>
+        mockServer.resolveQueryDailyNetworkStatses(last, skip, orderBy),
+      networkStats: (_parent) => mockServer.resolveQueryNetworkStats(),
+      price: (_parent) => mockServer.resolveQueryPrice(),
+      candles: (_parent, { start, end }) => mockServer.resolveQueryCandles(start, end)
+    }
+  };
+  
+  const typeDefs = [prismaTypeDefs, schemaTypeDefs];
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-// Using the ability to split links, you can send data to each link depending on what kind of
-// operation is being sent.
-const link = split(
-  // split based on operation type
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
-  },
-  wsLink, // for subscription
-  httpLink // for query or mutation
-);
+  link = new SchemaLink({ schema });
+}
+else
+{
+  // Create an http link.
+  const httpLink = new HttpLink({
+    uri: Constants.URI_SERVER_HTTP
+  });
+
+  // Create a WebSocketLink that represents the WebSocket connection. 
+  const wsLink = new WebSocketLink({
+    uri: Constants.URI_SERVER_WEB_SOCKETS,
+    options: {
+      reconnect: true
+    }
+  });
+
+  // Using the ability to split links, you can send data to each link depending on what kind of
+  // operation is being sent.
+  link = split(
+    // split based on operation type
+    ({ query }) => {
+      const { kind, operation } = getMainDefinition(query);
+      return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink, // for subscription
+    httpLink // for query or mutation
+  );
+}
 
 // Create Apollo client.
 const apolloClient = new ApolloClient({

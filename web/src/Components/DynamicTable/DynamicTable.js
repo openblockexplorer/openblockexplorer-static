@@ -35,7 +35,7 @@ const TypographyTitle = styled(Typography)`
     color: ${props => props.theme.colorBodyText};
     padding-top: 8px;
     padding-bottom: 4px;
-    padding-left: 11px;
+    padding-left: 15px;
     text-align: left;
     font-family: ${Constants.FONT_PRIMARY};
     font-size: ${Constants.MATERIAL_FONT_SIZE_H6};
@@ -74,6 +74,7 @@ const StyledTableCell = styled(TableCell)`
   && {
     border-color: ${props => props.theme.colorTableRowBorder};
     color: ${props => props.theme.colorBodyText};
+    font-family: ${Constants.FONT_PRIMARY};
     font-size: ${Constants.MATERIAL_FONT_SIZE_BODY_2};
     white-space: nowrap;
     /* Reducing the font size for narrow page widths seems sufficient for resizing the table when
@@ -118,6 +119,7 @@ const TableCellFooter = styled(StyledTableCell)`
   && {
     border-top-style: solid;
     border-top-width: 1px;
+    border-bottom: 0;
     color: ${props => props.theme.colorTableTextDim};
     font-size: 9px;
   }
@@ -220,6 +222,7 @@ class DynamicTable extends Component {
                     key={index}
                     align={cell.isNumeric ? 'right' : 'inherit'}
                     padding='checkbox'
+                    size='small'
                   >
                   {cell.link != null ?
                     <StyledLink to={cell.link}>{cell.value}</StyledLink> :
@@ -242,6 +245,7 @@ class DynamicTable extends Component {
                     key={index}
                     align={cell.isNumeric ? 'right' : 'inherit'}
                     padding='checkbox'
+                    size='small'
                   >
                   {cell.link != null ?
                     <StyledLink to={cell.link}>{cell.value}</StyledLink> :
@@ -326,6 +330,7 @@ class DynamicTable extends Component {
               breakpoint={breakpoint}
               key={index}
               padding='checkbox'
+              size='small'
               // Hide the border on rows that are leaving, so that table height remains consistent.
               style={state === 'leave' ? {borderBottomStyle: 'hidden'} : null}
             >

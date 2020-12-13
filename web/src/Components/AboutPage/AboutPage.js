@@ -4,7 +4,7 @@
  * @license MIT License
  */
 
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -524,25 +524,30 @@ class AboutPage extends TrackablePage {
               <StyledA href={Constants.URI_GITHUB_OPEN_BLOCK_EXPLORER_WIKI} target='_blank' rel='noopener noreferrer'>wiki</StyledA>
               {'.'}
             </TypographyBody>
-            <br />
-            <TypographyBody>
-              {'Join our mailing list today to stay up to date on development of our project. '}
-              {'We’ll let you know when Open Block Explorer goes live with real blockchain data.'}
-            </TypographyBody>
-            {/* Begin MailChimp Signup Form */}
-            <form action='https://dfinityexplorer.us18.list-manage.com/subscribe/post?u=059dc252f5f0cea2fec413c42&amp;id=4ebbd6c248' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' className='validate' target='_blank' rel='noopener noreferrer' noValidate>
-              {/* real people should not fill this in and expect good things - do not remove this or risk form bot signups  */}
-              <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden='true'>
-                <input type='text' name='b_059dc252f5f0cea2fec413c42_4ebbd6c248' tabIndex='-1' defaultValue='' />
-              </div>
-              <div className='clear'>
-                <ButtonSubscribe type='submit'>
-                  <MailIconButton />
-                  Join Our Mailing List
-                </ButtonSubscribe>
-              </div>
-            </form>
-            {/* End MailChimp Signup Form */}
+            { Constants.IS_STATIC_MODE ?
+              <Fragment /> :
+              <Fragment>
+                <br />
+                <TypographyBody>
+                  {'Join our mailing list today to stay up to date on development of our project. '}
+                  {'We’ll let you know when Open Block Explorer goes live with real blockchain data.'}
+                </TypographyBody>
+                {/* Begin MailChimp Signup Form */}
+                <form action='https://dfinityexplorer.us18.list-manage.com/subscribe/post?u=059dc252f5f0cea2fec413c42&amp;id=4ebbd6c248' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' className='validate' target='_blank' rel='noopener noreferrer' noValidate>
+                  {/* real people should not fill this in and expect good things - do not remove this or risk form bot signups  */}
+                  <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden='true'>
+                    <input type='text' name='b_059dc252f5f0cea2fec413c42_4ebbd6c248' tabIndex='-1' defaultValue='' />
+                  </div>
+                  <div className='clear'>
+                    <ButtonSubscribe type='submit'>
+                      <MailIconButton />
+                      Join Our Mailing List
+                    </ButtonSubscribe>
+                  </div>
+                </form>
+                {/* End MailChimp Signup Form */}
+              </Fragment>
+            }            
           </Fade>
         </GridTextRight>
       </GridSectionPrimary>
@@ -582,23 +587,28 @@ class AboutPage extends TrackablePage {
               <StyledA href={Constants.URI_GITHUB_CONTRIBUTORS} target='_blank' rel='noopener noreferrer'>contributors</StyledA>
               {'.'}
             </TypographyBody>
-            <br />
-            <TypographyBody>
-              {'Make a donation to help support the project! Open-source development is powered '}
-              {'by the support of people like you.'}
-            </TypographyBody>
-            <ButtonDonate checkoutId={Constants.COINBASE_CHECKOUT_ID}>
-              <Grid container direction='row' justify='flex-start' alignItems='center'>
-                <Grid item>
-                  <SvgIconButton>
-                    <path d={Constants.ICON_SVG_PATH_BITCOIN} />
-                  </SvgIconButton>
-                </Grid>
-                <Grid item>
-                  Donate With Crypto
-                </Grid>
-              </Grid>
-            </ButtonDonate>
+            { Constants.IS_STATIC_MODE ?
+              <Fragment /> :
+              <Fragment>
+                <br />
+                <TypographyBody>
+                  {'Make a donation to help support the project! Open-source development is powered '}
+                  {'by the support of people like you.'}
+                </TypographyBody>
+                <ButtonDonate checkoutId={Constants.COINBASE_CHECKOUT_ID}>
+                  <Grid container direction='row' justify='flex-start' alignItems='center'>
+                    <Grid item>
+                      <SvgIconButton>
+                        <path d={Constants.ICON_SVG_PATH_BITCOIN} />
+                      </SvgIconButton>
+                    </Grid>
+                    <Grid item>
+                      Donate With Crypto
+                    </Grid>
+                  </Grid>
+                </ButtonDonate>
+              </Fragment>
+            }            
           </Fade>
         </GridTextLeft>
         <GridImageRight item breakpoint={breakpoint}>

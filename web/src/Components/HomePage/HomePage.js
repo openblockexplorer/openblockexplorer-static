@@ -259,6 +259,7 @@ class HomePage extends TrackablePage {
   getSectionTables()
   {
     const { breakpoint } = this.props;
+    const { blockHeight } = this.state;
 
     return (
       <GridSectionTables container
@@ -283,7 +284,11 @@ class HomePage extends TrackablePage {
             delay={50}
             timeout={500}
           >
-            <TransactionsFadeTable breakpoint={breakpoint} maxRows={8} />
+            <TransactionsFadeTable
+              breakpoint={breakpoint}
+              maxRows={8}
+              staticModeBlockHeight={Constants.IS_STATIC_MODE ? blockHeight : null}
+            />
           </Fade>
         </GridTable>
       </GridSectionTables>

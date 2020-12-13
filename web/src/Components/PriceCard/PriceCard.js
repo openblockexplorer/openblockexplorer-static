@@ -37,9 +37,14 @@ class PriceCard extends Component {
     let { cardIndex, className } = this.props;
     
     return (
-      <Query query={queryPrice}>
+      <Query
+        query={queryPrice}
+        pollInterval={
+          Constants.IS_STATIC_MODE ? Constants.STATIC_PRICE_POLL_INTERVAL_MS : null}
+      >
         {({ loading, error, data, subscribeToMore }) => {
-          const subscribeToNewObjects = () => this.subscribeToNewObjects(subscribeToMore);
+          const subscribeToNewObjects =
+            Constants.IS_STATIC_MODE ? null : () => this.subscribeToNewObjects(subscribeToMore);
           let price;
           if (loading)
             price = 'Loading...';

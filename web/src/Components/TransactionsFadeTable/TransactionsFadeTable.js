@@ -10,6 +10,7 @@ import { Query } from "react-apollo";
 import DynamicTable from '../DynamicTable/DynamicTable';
 import queryTransactions from '../../graphql/queryTransactions';
 import subscriptionTransaction from '../../graphql/subscriptionTransaction';
+import Constants from '../../constants';
 import getHashString from '../../utils/getHashString';
 
 /**
@@ -24,8 +25,22 @@ class TransactionsFadeTableWithData extends Component {
     /**
      * The maximum number of rows in the table.
      */
-    maxRows: PropTypes.number.isRequired
+    maxRows: PropTypes.number.isRequired,
+    /**
+     * The current block height, used to trigger static mode refetches.
+     */
+    staticModeBlockHeight: PropTypes.number
   };
+
+  /**
+   * Create a TransactionsFadeTableWithData object.
+   * @constructor
+   */
+  constructor() {
+    super();
+
+    this.staticModeBlockHeight = 0;
+  }
 
   /**
    * Return a reference to a React element to render into the DOM.
@@ -33,11 +48,22 @@ class TransactionsFadeTableWithData extends Component {
    * @public
    */
   render() {
-    const {breakpoint, maxRows} = this.props;
+    const {breakpoint, maxRows, staticModeBlockHeight} = this.props;
     return (
-      <Query query={queryTransactions} variables={{ first: maxRows }}>
-        {({ loading, error, data, subscribeToMore }) => {
-          const subscribeToNewObjects = () => this.subscribeToNewObjects(subscribeToMore);
+      <Query
+        query={queryTransactions}
+        variables={{ first: maxRows }}
+      >
+        {({ loading, error, data, refetch, subscribeToMore }) => {
+          const subscribeToNewObjects =
+            Constants.IS_STATIC_MODE ? null : () => this.subscribeToNewObjects(subscribeToMore);
+
+          // When in static mode, refetch transactions when the block height changes.
+          if (Constants.IS_STATIC_MODE && this.staticModeBlockHeight !== staticModeBlockHeight) {
+            this.staticModeBlockHeight = staticModeBlockHeight;
+            refetch();
+          }
+
           if (loading)
             return (
               <TransactionsFadeTable

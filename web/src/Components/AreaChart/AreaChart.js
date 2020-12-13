@@ -37,7 +37,7 @@ const TypographyTitle = styled(Typography)`
     color: ${props => props.theme.colorBodyText};
     padding-top: 8px;
     padding-bottom: 8px;
-    padding-left: 11px;
+    padding-left: 15px;
     text-align: left;
     font-family: ${Constants.FONT_PRIMARY};
     font-size: ${Constants.MATERIAL_FONT_SIZE_H6};

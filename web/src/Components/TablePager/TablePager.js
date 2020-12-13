@@ -28,6 +28,7 @@ import Constants from '../../constants';
 const StyledTableCell = styled(TableCell)`
   && {
     &:last-child {
+      border-bottom: 0;
       padding: 0px;
     }
   }
@@ -58,6 +59,7 @@ const TypographyCaption = styled(Typography)`
 
 const TypographyRows = styled(TypographyCaption)`
   && {
+    margin-top: -1px;
     margin-left: 6px;
     margin-right: 14px;
     ${({ breakpoint }) =>
@@ -110,13 +112,12 @@ const StyledSelect = styled(({ ...other }) => (
     }
     & .root {
       /**
-       * Used to move the rows per page number and the down arrow closer together. Note that this
-       * causes problems (number abbreviated with ellipses) for a rows per page number with more
-       * than two digits, so if support is desired for more than 99 rows per page, we need to figure
-       * out how to move the arrow closer in a different way, or we could simply remove the line
-       * below and not move it closer.
+       * Used to move the rows per page number and the down arrow farther apart. Note that when this
+       * was set to a negative number to move them closer together, it caused problems (number
+       * abbreviated with ellipses) for a rows per page number with more than two digits (more than
+       * 99 rows per page).
        */
-      margin-right: -6px;
+      margin-right: 2px;
     }
     & .selectMenu {
       /* Vertically center rows per page number. Not sure why it is not already centered. */

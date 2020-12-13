@@ -540,8 +540,8 @@ class SymbolD3 extends Component  {
    * @private
    */
   getColorArrayCircle(index, numIndices) {
-    const lightGray = [174, 173, 174];
-    const darkGray =  [88, 89, 91];
+    const lightBlue600 = [0, 144, 207];
+    const darkBlue700 = [0, 125, 188];
     const transitionPercent = 0.25;
     const transitionIndices = numIndices * transitionPercent;
 
@@ -551,18 +551,18 @@ class SymbolD3 extends Component  {
 
     // Determine the color based on the color zone the index is in.
     if (index <= lastLightIndex)
-      return lightGray;
+      return lightBlue600;
     else if (index <= lastLightIndex + transitionIndices)
     {
       const percentage = (index - lastLightIndex) / transitionIndices;
-      return this.gradientColor(darkGray, lightGray, percentage);
+      return this.gradientColor(darkBlue700, lightBlue600, percentage);
     }
     else if (index <= lastDarkIndex)
-      return darkGray;
+      return darkBlue700;
     else
     {
       const percentage = (index - lastDarkIndex) / transitionIndices;
-      return this.gradientColor(lightGray, darkGray, percentage);
+      return this.gradientColor(lightBlue600, darkBlue700, percentage);
     }
   }
 

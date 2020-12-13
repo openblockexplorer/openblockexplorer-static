@@ -37,9 +37,14 @@ class TransactionsCard extends Component {
     let { cardIndex, className } = this.props;
     
     return (
-      <Query query={queryNetworkStats}>
+      <Query
+        query={queryNetworkStats}
+        pollInterval={
+          Constants.IS_STATIC_MODE ? Constants.STATIC_NETWORK_STATS_POLL_INTERVAL_MS : null}
+      >
       {({ loading, error, data, subscribeToMore }) => {
-        const subscribeToNewObjects = () => this.subscribeToNewObjects(subscribeToMore);
+        const subscribeToNewObjects =
+          Constants.IS_STATIC_MODE ? null : () => this.subscribeToNewObjects(subscribeToMore);
         let transactionsPerSecond;
         if (loading)
           transactionsPerSecond = 'Loading...';

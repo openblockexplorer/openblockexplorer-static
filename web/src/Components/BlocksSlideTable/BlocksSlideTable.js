@@ -10,6 +10,7 @@ import { Query } from "react-apollo";
 import DynamicTable from '../DynamicTable/DynamicTable';
 import queryBlocks from '../../graphql/queryBlocks';
 import subscriptionBlock from '../../graphql/subscriptionBlock';
+import Constants from '../../constants';
 
 /**
  * This component displays a table of Block objects with data retrieved via GraphQL.
@@ -38,6 +39,7 @@ class BlocksSlideTableWithData extends Component {
     super();
 
     this.firstBlockAdded = false;
+    this.staticModeBlockHeight = 0;
 
     // Bind to make 'this' work in callbacks.
     this.handleQueryCompleted = this.handleQueryCompleted.bind(this);
@@ -55,9 +57,11 @@ class BlocksSlideTableWithData extends Component {
         query={queryBlocks}
         variables={{ first: maxRows }}
         onCompleted={this.handleQueryCompleted}
+        pollInterval={Constants.IS_STATIC_MODE ? Constants.STATIC_BLOCK_TIME_MS : null}
       >
         {({ loading, error, data, subscribeToMore }) => {
-          const subscribeToNewObjects = () => this.subscribeToNewObjects(subscribeToMore);
+          const subscribeToNewObjects =
+            Constants.IS_STATIC_MODE ? null : () => this.subscribeToNewObjects(subscribeToMore);
           if (loading)
             return (
               <BlocksSlideTable
@@ -79,6 +83,22 @@ class BlocksSlideTableWithData extends Component {
               />
             );
           else {
+            // When in static mode, call handleAddNewBlock() when the block height changes. This is
+            // needed because of the following bug:
+            //    https://github.com/apollographql/apollo-client/issues/5531
+            // The bug is that handleQueryCompleted() is not called for pollInterval, so we have to
+            // call handleAddNewBlock() here instead. Calling handleAddNewBlock() in render() is
+            // poor form, since it causes the parent to update state, and would result in the
+            // warning:
+            //    "Warning: Cannot update during an existing state transition (such as within
+            //    `render`). Render methods should be a pure function of props and state."
+            // We avoid this warning by using setTimeout() to delay the call to handleAddNewBlock().
+            if (Constants.IS_STATIC_MODE && this.staticModeBlockHeight !== data.blocks[0].height) {
+              if (this.staticModeBlockHeight && this.props.handleAddNewBlock) // not first query
+                setTimeout(() => { this.props.handleAddNewBlock(data.blocks[0]) });
+              this.staticModeBlockHeight = data.blocks[0].height;
+            }
+
             return (
               <BlocksSlideTable
                 blocks={data.blocks}
@@ -103,6 +123,13 @@ class BlocksSlideTableWithData extends Component {
       this.firstBlockAdded = true;
 
       // Add a new block to the parent.
+      if (this.props.handleAddNewBlock)
+        this.props.handleAddNewBlock(data.blocks[0]);
+    }
+    else if (Constants.IS_STATIC_MODE) {
+      // Add a new block to the parent. We always do this for static mode, so that the Query
+      // pollInterval triggers a handleAddNewBlock() call, since subscribeToNewObjects() does not
+      // work in static mode.
       if (this.props.handleAddNewBlock)
         this.props.handleAddNewBlock(data.blocks[0]);
     }

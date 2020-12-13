@@ -39,7 +39,7 @@ const TypographyTitle = styled(Typography)`
     color: ${props => props.theme.colorBodyText};
     padding-top: 8px;
     padding-bottom: 4px;
-    padding-left: 11px;
+    padding-left: 15px;
     text-align: left;
     font-family: ${Constants.FONT_PRIMARY};
     font-size: ${Constants.MATERIAL_FONT_SIZE_H6};
@@ -99,6 +99,7 @@ const StyledTableCell = styled(TableCell)`
   && {
     border-color: ${props => props.theme.colorTableRowBorder};
     color: ${props => props.theme.colorBodyText};
+    font-family: ${Constants.FONT_PRIMARY};
     font-size: ${Constants.MATERIAL_FONT_SIZE_BODY_2};
     white-space: nowrap;
     ${({ breakpoint }) =>
@@ -345,6 +346,7 @@ class PagedTable extends Component {
               key={index}
               align={cell.isNumeric ? 'right' : 'inherit'}
               padding='checkbox'
+              size='small'
             >
               {cell.link != null ?
                 <StyledLink to={cell.link}>{cell.value}</StyledLink> :
@@ -391,6 +393,7 @@ class PagedTable extends Component {
               key={index}
               align={cell.isNumeric ? 'right' : 'inherit'}
               padding='checkbox'
+              size='small'
             >
               {cell.link != null ?
                 <StyledLink to={cell.link}>{cell.value}</StyledLink> :
