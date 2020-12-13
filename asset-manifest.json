@@ -1,16 +1,18 @@
 {
   "files": {
-    "main.js": "/static/js/main.ca0e6ed0.chunk.js",
-    "main.js.map": "/static/js/main.ca0e6ed0.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/css/2.436ad326.chunk.css": "/static/css/2.436ad326.chunk.css",
-    "static/js/2.be4048a3.chunk.js": "/static/js/2.be4048a3.chunk.js",
-    "static/js/2.be4048a3.chunk.js.map": "/static/js/2.be4048a3.chunk.js.map",
+    "main.js": "/static/js/main.1312aed1.chunk.js",
+    "main.js.map": "/static/js/main.1312aed1.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.163a0a4f.js",
+    "runtime-main.js.map": "/static/js/runtime-main.163a0a4f.js.map",
+    "static/css/2.aef303ae.chunk.css": "/static/css/2.aef303ae.chunk.css",
+    "static/js/2.8060a918.chunk.js": "/static/js/2.8060a918.chunk.js",
+    "static/js/2.8060a918.chunk.js.map": "/static/js/2.8060a918.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.6aad4490c4521a7a40a32146dd400089.js": "/precache-manifest.6aad4490c4521a7a40a32146dd400089.js",
+    "precache-manifest.54039b1c3afd6d7641a77f6379829823.js": "/precache-manifest.54039b1c3afd6d7641a77f6379829823.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/2.436ad326.chunk.css.map": "/static/css/2.436ad326.chunk.css.map",
+    "static/css/2.aef303ae.chunk.css.map": "/static/css/2.aef303ae.chunk.css.map",
+    "static/js/2.8060a918.chunk.js.LICENSE.txt": "/static/js/2.8060a918.chunk.js.LICENSE.txt",
+    "static/js/main.1312aed1.chunk.js.LICENSE.txt": "/static/js/main.1312aed1.chunk.js.LICENSE.txt",
     "static/media/apollo-logo-dark-mode.png": "/static/media/apollo-logo-dark-mode.ff872a8a.png",
     "static/media/apollo-logo-light-mode.png": "/static/media/apollo-logo-light-mode.d4f0ec1b.png",
     "static/media/banner-x-horizon.png": "/static/media/banner-x-horizon.78a73653.png",
@@ -27,5 +29,11 @@
     "static/media/react-logo-text.png": "/static/media/react-logo-text.24432c06.png",
     "static/media/styled-components-logo-dark-mode.png": "/static/media/styled-components-logo-dark-mode.3b3add6f.png",
     "static/media/styled-components-logo-light-mode.png": "/static/media/styled-components-logo-light-mode.33f922e4.png"
-  }
+  },
+  "entrypoints": [
+    "static/js/runtime-main.163a0a4f.js",
+    "static/css/2.aef303ae.chunk.css",
+    "static/js/2.8060a918.chunk.js",
+    "static/js/main.1312aed1.chunk.js"
+  ]
 }
