@@ -9,7 +9,7 @@ import {
   Route,
   HashRouter
 } from 'react-router-dom';
-import ReactGA from 'react-ga';
+//import ReactGA from 'react-ga';
 import styled, { ThemeProvider } from 'styled-components';
 import { loadCSS } from 'fg-loadcss';
 import {
@@ -127,8 +127,8 @@ const apolloClient = new ApolloClient({
 // Union User Consent Policy." Advertising Features are not enabled for Open Block Explorer. Under
 // the GDPR, an IP address is considered Personally Identifiable Information (PII), so we anonymize
 // the IP addresses sent to Google Analytics
-ReactGA.initialize(Constants.GOOGLE_ANALYTICS_TRACKING_ID);
-ReactGA.set({ anonymizeIp: true });
+//ReactGA.initialize(Constants.GOOGLE_ANALYTICS_TRACKING_ID);
+//ReactGA.set({ anonymizeIp: true });
 
 const ContentDiv = styled.div`
   && {
